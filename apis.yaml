@@ -1,195 +1,487 @@
-definitions: {}
+swagger: "2.0"
 info:
-  title: APIfication
-  version: '1.0'
+  title: APIs du SI Keep Cool
+  description: "Définition des APIs du SI Keep Cool."  
+  version: '1.0.0'
+host: "apis.keepcool.fr"
 paths:
   /adherents:
     get:
-      description: Retourne la liste des adhérents
+      description: Récupérer la liste des adhérents
+      summary: Récupérer la liste des adhérents
       responses:
         '200':
           description: Retourne la liste des adhérents
-      summary: Récupérer la liste des adhérents
-      tags:
-        - Adhérent
-  '/adherents/{id}':
-    get:
-      description: Récupérer l'adherént par son id
-      responses:
-        '200':
-          description: Retourne l'adhérent par son id
-      summary: Récupérer l'adherént par son id
       tags:
         - Adhérent
     post:
-      description: Créer l'adherént
+      description: Ajouter un adhérent
+      summary: Ajouter un adhérent
       responses:
         '201':
           description: Retourne l'adhérent créé
-      summary: Créer l'adherént
+          schema:
+            $ref: "#/definitions/Adherent"
       tags:
-        - Adhérent
+        - Adhérent        
+  '/adherents/{id}':
+    get:
+      description: Récupérer un adhérent par son id
+      summary: Récupérer un adhérent par son id
+      tags:
+        - Adhérent      
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID de l'adhérent"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        '200':
+          description: Retourne l'adhérent par son id
+          schema:
+            $ref: "#/definitions/Adherent"
     put:
-      description: Mettre à jour l'adherént par son id
+      description: Mettre à jour un adhérent par son id
+      summary: Mettre à jour un adhérent par son id
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID de l'adhérent"
+        required: true
+        type: "integer"
+        format: "int64"
       responses:
         '200':
           description: Retourne l'adhérent actualisé
-      summary: Mettre à jour l'adherént par son id
+          schema:
+            $ref: "#/definitions/Adherent"
       tags:
         - Adhérent
     delete:
       description: Supprimer l'adherént
+      summary: Supprimer l'adherént
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID de l'adhérent"
+        required: true
+        type: "integer"
+        format: "int64"
       responses:
         '200':
           description: Retourne true si l'adhérent a été supprimé
-      summary: Supprimer l'adherént
       tags:
         - Adhérent
-  '/adherents/{id}/salles':
-    post:
-      description: Affecter un adhérent à une salle
-      responses:
-        '201':
-          description: Retourne l'adhérent affecté à une salle
-      summary: Affecter un adhérent à une salle
-      tags:
-        - Adhérent
-    put:
-      description: Mettre à jour l'affectation d'un adhérent à une salle
-      responses:
-        '200':
-          description: Retourne l'adhérent actualisé
-      summary: Mettre à jour l'affectation d'un adhérent à une salle
-      tags:
-        - Adhérent
-    delete:
-      description: Supprimer l'affectation d'un adhérent à une salle
-      responses:
-        '200':
-          description: Retourne true si l'adhérent a été désaffecté
-      summary: Supprimer l'affectation d'un adhérent à une salle
-      tags:
-        - Adhérent
-  '/adherents/{id}/parraines':
-    get:
-      description: Récupérer la liste des parrainés d’un adhérent
-      responses:
-        '200':
-          description: Retourne la liste des parrainés d’un adhérent
-      summary: Récupérer la liste des parrainés d’un adhérent
-      tags:
-        - Adhérent
-    post:
-      description: Affecter un parrainé à un adhérent
-      responses:
-        '201':
-          description: Retourne l'adhérent avec un parrainé affecté
-      summary: Affecter un parrainé à un adhérent
-      tags:
-        - Adhérent
-    put:
-      description: Mettre à jour un parrainé d'un adhérent
-      responses:
-        '200':
-          description: Retourne l'adhérent avec le parrainé actualisé
-      summary: Mettre à jour un parrainé d'un adhérent
-      tags:
-        - Adhérent
-    delete:
-      description: Supprimer un parrainé d'un adhérent
-      responses:
-        '200':
-          description: Retourne true si le parrainé a été supprimé d'adhérent
-      summary: Supprimer un parrainé d'un adhérent
-      tags:
-        - Adhérent
+
   /prospects:
     get:
       description: Récupérer la liste des prospects
+      summary: Récupérer la liste des prospects      
       responses:
         '200':
           description: Retourne la liste des prospects
-      summary: Récupérer la liste des prospects
       tags:
-        - Prospect
-  '/prospects/{id}':
-    get:
-      description: Récupérer le prospect par son id
-      responses:
-        '200':
-          description: Retourne le prospect par son id
-      summary: Récupérer le prospect par son id
-      tags:
-        - Prospect
+        - Adhérent
     post:
-      description: Ajouter le prospect
+      description: Ajouter un prospect
+      summary: Ajouter un prospect
+      tags:
+        - Adhérent
       responses:
         '201':
           description: Retourne le prospect créé
-      summary: Ajouter le prospect
+          schema:
+            $ref: "#/definitions/Prospect"
+        
+  '/prospects/{id}':
+    get:
+      description: Récupérer le prospect par son id
+      summary: Récupérer le prospect par son id
       tags:
-        - Prospect
+        - Adhérent
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID du prospect"
+        required: true
+        type: "integer"
+        format: "int64" 
+      responses:
+        '200':
+          description: Retourne le prospect par son id
+          schema:
+            $ref: "#/definitions/Prospect"
     put:
-      description: Mettre à jour le prospect
+      description: Mettre à jour un prospect
+      summary: Mettre à jour un prospect
+      tags:
+        - Adhérent
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID du prospect"
+        required: true
+        type: "integer"
+        format: "int64"        
       responses:
         '200':
           description: Retourne le prospect actualisé
-      summary: Mettre à jour le prospect
-      tags:
-        - Prospect
+          schema:
+            $ref: "#/definitions/Prospect"          
     delete:
-      description: Supprimer le prospect
+      description: Supprimer un prospect
+      summary: Supprimer un prospect
+      tags:
+        - Adhérent
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID du prospect"
+        required: true
+        type: "integer"
+        format: "int64"        
       responses:
         '200':
           description: Retourne true si le prospect a été supprimé
-      summary: Supprimer le prospect
-      tags:
-        - Prospect
-  /salle:
+
+  /clubs:
     get:
-      description: Récupérer la liste des salles
+      description: Récupérer la liste des clubs
+      summary: Récupérer la liste des clubs
+      tags:
+        - Club      
       responses:
         '200':
-          description: Retourne la liste des salles
-      summary: Récupérer la liste des salles
-      tags:
-        - Salle
-  '/salles/{id}/adherents':
+          description: Retourne la liste des clubs
+
+  '/clubs/{id}':
     get:
-      description: Récupérer la liste des adhérents d’une salle
+      description: Récupérer un club par son id
+      summary: Récupérer un club par son id
+      tags: 
+        - Club
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID du club"
+        required: true
+        type: "integer"
+        format: "int64"
       responses:
         '200':
-          description: Retourne la liste des adhérents d'une salle
-      summary: Récupérer la liste des adhérents d’une salle
+          description: Récupérer un club par son id
+          schema:
+            $ref: "#/definitions/Club"          
+  /articles:
+    get:
+      description: Récupérer la liste des articles
+      summary: Récupérer la liste des articles
       tags:
-        - Salle
-  '/salles/{id}/adherents/{id}':
+        - Article
+      responses:
+        '200':
+          description: Retourne la liste des articles
+
+  '/articles/{id}':
+    get:
+      description: Récupérer un article par son id
+      summary: Récupérer un article par son id
+      tags: 
+        - Article
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID de l'article"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        '200':
+          description: Récupérer un article par son id      
+          schema:
+            $ref: "#/definitions/Article"
+
+  /contratsadhesion:
+    get:
+      description: Récupérer la liste des contrats d'adhésion
+      summary: Récupérer la liste des contrats d'adhésion
+      tags:
+        - Vente
+      responses:
+        '200':
+          description: Récupérer la liste des contrats d'adhésion
     post:
-      description: Affecter un adhérent à une salle
+      description: Ajouter un contrat d'adhésion
+      summary: Ajouter un contrat d'adhésion
+      tags:
+        - Vente
       responses:
         '201':
-          description: Retourne l'adhérent affecté
-      summary: Affecter un adhérent à une salle
-      tags:
-        - Salle
+          description: Retourne le contrat d'adhésion créé
+          schema:
+            $ref: "#/definitions/ContratAdhesion"
+
+  '/contratsadhesion/{id}':
+    get:
+      description: Récupérer un contrat d'adhésion par son id
+      summary: Récupérer un contrat d'adhésion par son id
+      tags: 
+        - Vente
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID du contrat d'adhésion"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        '200':
+          description: Récupérer un contrat d'adhésion par son id
+          schema:
+            $ref: "#/definitions/ContratAdhesion" 
     put:
-      description: Mettre à jour un adhérent d'une salle
+      description: Mettre à jour un contrat d'adhésion
+      summary: Mettre à jour un contrat d'adhésion
+      tags:
+        - Vente
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID du contrat d'adhésion"
+        required: true
+        type: "integer"
+        format: "int64"        
       responses:
         '200':
-          description: Retourne l'adhérent actualisé
-      summary: Mettre à jour un adhérent d'une salle
-      tags:
-        - Salle
+          description: Retourne le contrat d'adhésion actualisé
+          schema:
+            $ref: "#/definitions/ContratAdhesion"          
     delete:
-      description: Supprimer un adhérent d'une salle
+      description: Supprimer un contrat d'adhésion
+      summary: Supprimer un contrat d'adhésion
+      tags:
+        - Vente
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID du contrat d'adhésion"
+        required: true
+        type: "integer"
+        format: "int64"        
       responses:
         '200':
-          description: Retourne true si l'adhérent a été supprimé de la salle
-      summary: Supprimer un adhérent d'une salle
+          description: Retourne true si le contrat d'adhésion a été supprimé
+
+  '/contratsadhesion/{id}/lignes':
+    get:
+      description: Récupérer les lignes d'un contrat d'adhésion par son id
+      summary: Récupérer les lignes d'un contrat d'adhésion par son id
+      tags: 
+        - Vente
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID du contrat d'adhésion"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        '200':
+          description: Récupérer les lignes d'un contrat d'adhésion par son id
+    post:
+      description: Ajouter une ligne à un contrat d'adhésion par son id
+      summary: Ajouter une ligne à un contrat d'adhésion par son id
+      tags: 
+        - Vente
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID du contrat d'adhésion"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        '200':
+          description: Retourne la ligne d'un contrat d'adhésion
+          schema:
+            $ref: "#/definitions/LigneContratAdhesion"
+
+  '/contratsadhesion/{id_ctr}/lignes/{id_lignectr}':
+    get:
+      description: Récupérer une ligne d'un contrat d'adhésion par son id
+      summary: Récupérer une ligne d'un contrat d'adhésion par son id
+      tags: 
+        - Vente
+      parameters:
+      - name: "id_ctr"
+        in: "path"
+        description: "ID du contrat d'adhésion"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "id_lignectr"
+        in: "path"
+        description: "ID de la ligne du contrat d'adhésion"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        '200':
+          description: Récupérer les lignes d'un contrat d'adhésion par son id
+          schema:
+            $ref: "#/definitions/LigneContratAdhesion"          
+
+  /facturesvente:
+    get:
+      description: Récupérer la liste des factures de vente
+      summary: Récupérer la liste des factures de vente
       tags:
-        - Salle
+        - Vente
+      responses:
+        '200':
+          description: Récupérer la liste des factures de vente
+    post:
+      description: Ajouter une facture de vente
+      summary: Ajouter une facture de vente
+      tags:
+        - Vente
+      responses:
+        '201':
+          description: Retourne le contrat d'adhésion créé
+          schema:
+            $ref: "#/definitions/FactureVente"
+
+  '/facturesvente/{id}':
+    get:
+      description: Récupérer une facture de vente par son id
+      summary: Récupérer une facture de vente par son id
+      tags: 
+        - Vente
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID de la facture de vente"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        '200':
+          description: Récupérer une facture de vente par son id
+          schema:
+            $ref: "#/definitions/FactureVente"
+
+  '/facturesvente/{id}/lignes':
+    get:
+      description: Récupérer les lignes d'une facture de vente par l'id de la facture
+      summary: Récupérer les lignes d'une facture de vente par l'id de la facture
+      tags: 
+        - Vente
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID de la facture de vente"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        '200':
+          description: Récupérer les lignes d'une facture de vente par l'id de la facture
+    post:
+      description: Ajouter une ligne à une facture de vente par l'id de la facture
+      summary: Ajouter une ligne à une facture de vente par l'id de la facture
+      tags: 
+        - Vente
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID de la facture de vente"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        '200':
+          description: Retourne la ligne de facture de vente créée
+          schema:
+            $ref: "#/definitions/LigneFactureVente"
+
+  '/facturesvente/{id_fac}/lignes/{id_lignefac}':
+    get:
+      description: Récupérer une ligne d'une facture de vente par les id
+      summary: Récupérer une ligne d'une facture de vente par les id
+      tags: 
+        - Vente
+      parameters:
+      - name: "id_fac"
+        in: "path"
+        description: "ID du contrat d'adhésion"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "id_lignefac"
+        in: "path"
+        description: "ID de la ligne de la facture de vente"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        '200':
+          description: Récupérer la ligne d'une facture de vente par son id
+          schema:
+            $ref: "#/definitions/LigneFactureVente"
+
+  /reglements:
+    get:
+      description: Récupérer la liste des règlements
+      summary: Récupérer la liste des règlements
+      tags:
+        - Finance
+      responses:
+        '200':
+          description: Récupérer la liste des règlements
+    post:
+      description: Ajouter un règlement
+      summary: Ajouter un règlement
+      tags:
+        - Finance
+      responses:
+        '201':
+          description: Retourne le règlement créé
+          schema:
+            $ref: "#/definitions/Reglement"
+
+  '/reglements/{id}':
+    get:
+      description: Récupérer un règlement par son id
+      summary: Récupérer un règlement par son id
+      tags: 
+        - Finance
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID du règlmeent"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        '200':
+          description: Récupérer un règlement par son id
+          schema:
+            $ref: "#/definitions/Reglement"
+            
+  /login:
+    post:
+      description: S'authentifier sur la plateforme APIs
+      summary: S'authentifier sur la plateforme APIs
+      tags:
+        - Outils
+      responses:
+        '200':
+          description: Récupérer un jeton d'authentification
+            
 definitions:
-  Adhérent:
+  Adherent:
       type: "object"
       properties:
         adhId:
@@ -215,7 +507,7 @@ definitions:
         ville:
           type: "string"
         dateNaiss:
-          type: "date"
+          type: "string"
         sexe:
           type: "string"
         sourceProvenance:
@@ -226,26 +518,46 @@ definitions:
         isParraine:
           type: "boolean"
         dateAdhesion:
-          type: "date"
+          type: "string"
         prelevement:
-          type: "array"
-          xml:
-          name: "prelevement"
-          wrapped: true
-        items:
-          $ref: "#/definitions/Adhérent"
+          type: "string"
         telephone:
           type: "string"
         moyensPaiement:
-          type: "array"
+          type: "string"
         acces:
-          type: "array"
+          type: "string"
         parraine:
-          type: "array"
-  Salle:
+          type: "string"
+
+  Prospect:
+      type: "object"
+      properties:
+        adhId:
+          type: "integer"
+          format: "int64"
+        nom:
+          type: "string"
+        prenom:
+          type: "string"
+
+  Article:
+      type: "object"
+      properties:
+        idArticle:
+          type: "integer"
+          format: "int64"
+        idClub:
+          type: "integer"
+          format: "int64"
+        nom:
+          type: "string"
+        code:
+          type: "string"  
+  Club:
         type: "object"
         properties:
-          idSalle:
+          idClub:
             type: "integer"
             format: "int64"
           nom:
@@ -261,8 +573,46 @@ definitions:
           ville:
             type: "string"
           adherents:
-            type: "array"
+            type: "string"
           reglements:
-            type: "array"
-        
-swagger: '2.0'
+            type: "string"
+
+  ContratAdhesion:
+        type: "object"
+        title: "Contrat d'adhésion"
+        properties:
+          idContratAdhesion:
+            type: "integer"
+            format: "int64"
+
+  LigneContratAdhesion:
+        type: "object"
+        title: "Ligne de contrat d'adhésion"        
+        properties:
+          idLigneContratAdhesion:
+            type: "integer"
+            format: "int64"
+            
+  FactureVente:
+        type: "object"
+        title: "Facture de vente"        
+        properties:
+          idFactureVente:
+            type: "integer"
+            format: "int64"
+
+  LigneFactureVente:
+        type: "object"
+        title: "Ligne de facture de vente"        
+        properties:
+          idFactureVente:
+            type: "integer"
+            format: "int64"            
+            
+  Reglement:
+        type: "object"
+        title: "Règlement d'une échéance"
+        properties:
+          idFactureVente:
+            type: "integer"
+            format: "int64"                        
