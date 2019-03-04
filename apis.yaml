@@ -1,0 +1,268 @@
+definitions: {}
+info:
+  title: APIfication
+  version: '1.0'
+paths:
+  /adherents:
+    get:
+      description: Retourne la liste des adhérents
+      responses:
+        '200':
+          description: Retourne la liste des adhérents
+      summary: Récupérer la liste des adhérents
+      tags:
+        - Adhérent
+  '/adherents/{id}':
+    get:
+      description: Récupérer l'adherént par son id
+      responses:
+        '200':
+          description: Retourne l'adhérent par son id
+      summary: Récupérer l'adherént par son id
+      tags:
+        - Adhérent
+    post:
+      description: Créer l'adherént
+      responses:
+        '201':
+          description: Retourne l'adhérent créé
+      summary: Créer l'adherént
+      tags:
+        - Adhérent
+    put:
+      description: Mettre à jour l'adherént par son id
+      responses:
+        '200':
+          description: Retourne l'adhérent actualisé
+      summary: Mettre à jour l'adherént par son id
+      tags:
+        - Adhérent
+    delete:
+      description: Supprimer l'adherént
+      responses:
+        '200':
+          description: Retourne true si l'adhérent a été supprimé
+      summary: Supprimer l'adherént
+      tags:
+        - Adhérent
+  '/adherents/{id}/salles':
+    post:
+      description: Affecter un adhérent à une salle
+      responses:
+        '201':
+          description: Retourne l'adhérent affecté à une salle
+      summary: Affecter un adhérent à une salle
+      tags:
+        - Adhérent
+    put:
+      description: Mettre à jour l'affectation d'un adhérent à une salle
+      responses:
+        '200':
+          description: Retourne l'adhérent actualisé
+      summary: Mettre à jour l'affectation d'un adhérent à une salle
+      tags:
+        - Adhérent
+    delete:
+      description: Supprimer l'affectation d'un adhérent à une salle
+      responses:
+        '200':
+          description: Retourne true si l'adhérent a été désaffecté
+      summary: Supprimer l'affectation d'un adhérent à une salle
+      tags:
+        - Adhérent
+  '/adherents/{id}/parraines':
+    get:
+      description: Récupérer la liste des parrainés d’un adhérent
+      responses:
+        '200':
+          description: Retourne la liste des parrainés d’un adhérent
+      summary: Récupérer la liste des parrainés d’un adhérent
+      tags:
+        - Adhérent
+    post:
+      description: Affecter un parrainé à un adhérent
+      responses:
+        '201':
+          description: Retourne l'adhérent avec un parrainé affecté
+      summary: Affecter un parrainé à un adhérent
+      tags:
+        - Adhérent
+    put:
+      description: Mettre à jour un parrainé d'un adhérent
+      responses:
+        '200':
+          description: Retourne l'adhérent avec le parrainé actualisé
+      summary: Mettre à jour un parrainé d'un adhérent
+      tags:
+        - Adhérent
+    delete:
+      description: Supprimer un parrainé d'un adhérent
+      responses:
+        '200':
+          description: Retourne true si le parrainé a été supprimé d'adhérent
+      summary: Supprimer un parrainé d'un adhérent
+      tags:
+        - Adhérent
+  /prospects:
+    get:
+      description: Récupérer la liste des prospects
+      responses:
+        '200':
+          description: Retourne la liste des prospects
+      summary: Récupérer la liste des prospects
+      tags:
+        - Prospect
+  '/prospects/{id}':
+    get:
+      description: Récupérer le prospect par son id
+      responses:
+        '200':
+          description: Retourne le prospect par son id
+      summary: Récupérer le prospect par son id
+      tags:
+        - Prospect
+    post:
+      description: Ajouter le prospect
+      responses:
+        '201':
+          description: Retourne le prospect créé
+      summary: Ajouter le prospect
+      tags:
+        - Prospect
+    put:
+      description: Mettre à jour le prospect
+      responses:
+        '200':
+          description: Retourne le prospect actualisé
+      summary: Mettre à jour le prospect
+      tags:
+        - Prospect
+    delete:
+      description: Supprimer le prospect
+      responses:
+        '200':
+          description: Retourne true si le prospect a été supprimé
+      summary: Supprimer le prospect
+      tags:
+        - Prospect
+  /salle:
+    get:
+      description: Récupérer la liste des salles
+      responses:
+        '200':
+          description: Retourne la liste des salles
+      summary: Récupérer la liste des salles
+      tags:
+        - Salle
+  '/salles/{id}/adherents':
+    get:
+      description: Récupérer la liste des adhérents d’une salle
+      responses:
+        '200':
+          description: Retourne la liste des adhérents d'une salle
+      summary: Récupérer la liste des adhérents d’une salle
+      tags:
+        - Salle
+  '/salles/{id}/adherents/{id}':
+    post:
+      description: Affecter un adhérent à une salle
+      responses:
+        '201':
+          description: Retourne l'adhérent affecté
+      summary: Affecter un adhérent à une salle
+      tags:
+        - Salle
+    put:
+      description: Mettre à jour un adhérent d'une salle
+      responses:
+        '200':
+          description: Retourne l'adhérent actualisé
+      summary: Mettre à jour un adhérent d'une salle
+      tags:
+        - Salle
+    delete:
+      description: Supprimer un adhérent d'une salle
+      responses:
+        '200':
+          description: Retourne true si l'adhérent a été supprimé de la salle
+      summary: Supprimer un adhérent d'une salle
+      tags:
+        - Salle
+definitions:
+  Adhérent:
+      type: "object"
+      properties:
+        adhId:
+          type: "integer"
+          format: "int64"
+        nom:
+          type: "string"
+        prenom:
+          type: "string"
+        statutAdhesion:
+          type: "boolean"
+          default: false
+        statutAdherent:
+          type: "string"
+        statusReglement:
+          type: "string"
+        email:
+          type: "string"
+        adresse:
+          type: "string"
+        codePostal:
+          type: "string"
+        ville:
+          type: "string"
+        dateNaiss:
+          type: "date"
+        sexe:
+          type: "string"
+        sourceProvenance:
+          type: "string"
+        idSalle:
+          type: "integer"
+          format: "int64"
+        isParraine:
+          type: "boolean"
+        dateAdhesion:
+          type: "date"
+        prelevement:
+          type: "array"
+          xml:
+          name: "prelevement"
+          wrapped: true
+        items:
+          $ref: "#/definitions/Adhérent"
+        telephone:
+          type: "string"
+        moyensPaiement:
+          type: "array"
+        acces:
+          type: "array"
+        parraine:
+          type: "array"
+  Salle:
+        type: "object"
+        properties:
+          idSalle:
+            type: "integer"
+            format: "int64"
+          nom:
+            type: "string"
+          adresse:
+            type: "string"
+          telephone:
+            type: "string"
+          email:
+            type: "string"
+          nomResponsable:
+            type: "string"
+          ville:
+            type: "string"
+          adherents:
+            type: "array"
+          reglements:
+            type: "array"
+        
+swagger: '2.0'
