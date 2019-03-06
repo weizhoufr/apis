@@ -584,6 +584,48 @@ definitions:
           idContratAdhesion:
             type: "integer"
             format: "int64"
+          createurNom:
+            type: "string"
+          dateAdhesion:
+            type: "string"
+            format: "date-time"
+          typeContrat:
+            type: "string"
+          adhId:
+            type: "integer"
+            format: "int64"
+          nbMoisEngagement:
+            type: "integer"
+            format: "int64"
+          moyensPaiement:
+            type: "string"
+          parraine:
+            type: "string"
+          idClub:
+            type: "integer"
+            format: "int64"
+          idArticle:
+              type: "integer"
+              format: "int64"
+          prix:
+              type: "integer"
+              format: "int64"
+          dateCreaArticle:
+            type: "string"
+            format: "date-time"
+          typeArticle:
+              type: "string"
+          dateResil:
+            type: "string"
+            format: "date-time"
+          motifResilId:
+              type: "integer"
+              format: "int64"
+          dateEffet:
+            type: "string"
+            format: "date-time"
+          
+       
 
   LigneContratAdhesion:
         type: "object"
@@ -592,6 +634,10 @@ definitions:
           idLigneContratAdhesion:
             type: "integer"
             format: "int64"
+          idArticle:
+            type: "integer"
+            format: "int64"
+            
             
   FactureVente:
         type: "object"
@@ -600,19 +646,66 @@ definitions:
           idFactureVente:
             type: "integer"
             format: "int64"
+          creaDate:
+            type: "string"
+            format: "date-time"
+          dateFacturation:
+            type: "string"
+            format: "date-time"
+          idClub:
+            type: "integer"
+            format: "int64"
+          adhId:
+            type: "integer"
+            format: "int64"
+          createurNom:
+            type: "string"
+    
+          
 
   LigneFactureVente:
         type: "object"
         title: "Ligne de facture de vente"        
         properties:
+          idLigneFactureVente:
+            type: "integer"
+            format: "int64" 
           idFactureVente:
             type: "integer"
-            format: "int64"            
+            format: "int64"  
+          
             
   Reglement:
         type: "object"
         title: "Règlement d'une échéance"
         properties:
+          reglementEchId:
+            type: "integer"
+            format: "int64" 
+          creaDate:
+            type: "string"
+            format: "date-time"
+          createurNom:
+            type: "string"
+          chequeNum:
+            type: "string"
+          chequeDateEncaiss:
+            type: "string"
+            format: "date-time"
+          statut:
+            type: "string"
+          idClub:
+            type: "integer"
+            format: "int64"
+          nomTitulaireCheque:
+            type: "string"
+          adhId:
+            type: "integer"
+            format: "int64"   
+          montant:
+            type: "number"
+            format: "float"   
           idFactureVente:
             type: "integer"
-            format: "int64"                        
+            format: "int64"
+            
