@@ -22,6 +22,8 @@ paths:
           description: Retourne l'adhérent créé
           schema:
             $ref: "#/definitions/Adherent"
+        '409':
+          description: Adhérent en doublon
       tags:
         - Adhérent        
   '/adherents/{id}':
@@ -94,7 +96,9 @@ paths:
           description: Retourne le prospect créé
           schema:
             $ref: "#/definitions/Prospect"
-        
+        '409':
+          description: Prospect en doublon
+          
   '/prospects/{id}':
     get:
       description: Récupérer le prospect par son id
@@ -274,65 +278,6 @@ paths:
         '200':
           description: Retourne true si le contrat d'adhésion a été supprimé
 
-  '/contratsadhesion/{id}/lignes':
-    get:
-      description: Récupérer les lignes d'un contrat d'adhésion par son id
-      summary: Récupérer les lignes d'un contrat d'adhésion par son id
-      tags: 
-        - Vente
-      parameters:
-      - name: "id"
-        in: "path"
-        description: "ID du contrat d'adhésion"
-        required: true
-        type: "integer"
-        format: "int64"
-      responses:
-        '200':
-          description: Récupérer les lignes d'un contrat d'adhésion par son id
-    post:
-      description: Ajouter une ligne à un contrat d'adhésion par son id
-      summary: Ajouter une ligne à un contrat d'adhésion par son id
-      tags: 
-        - Vente
-      parameters:
-      - name: "id"
-        in: "path"
-        description: "ID du contrat d'adhésion"
-        required: true
-        type: "integer"
-        format: "int64"
-      responses:
-        '200':
-          description: Retourne la ligne d'un contrat d'adhésion
-          schema:
-            $ref: "#/definitions/LigneContratAdhesion"
-
-  '/contratsadhesion/{id_ctr}/lignes/{id_lignectr}':
-    get:
-      description: Récupérer une ligne d'un contrat d'adhésion par son id
-      summary: Récupérer une ligne d'un contrat d'adhésion par son id
-      tags: 
-        - Vente
-      parameters:
-      - name: "id_ctr"
-        in: "path"
-        description: "ID du contrat d'adhésion"
-        required: true
-        type: "integer"
-        format: "int64"
-      - name: "id_lignectr"
-        in: "path"
-        description: "ID de la ligne du contrat d'adhésion"
-        required: true
-        type: "integer"
-        format: "int64"
-      responses:
-        '200':
-          description: Récupérer les lignes d'un contrat d'adhésion par son id
-          schema:
-            $ref: "#/definitions/LigneContratAdhesion"          
-
   /facturesvente:
     get:
       description: Récupérer la liste des factures de vente
@@ -479,69 +424,98 @@ paths:
       responses:
         '200':
           description: Récupérer un jeton d'authentification
+        '401':
+          description: Echec d'authentification
             
 definitions:
-  Adherent:
+  Objet:
       type: "object"
       properties:
-        adhId:
-          type: "integer"
-          format: "int64"
+        dateCreation:
+          type: "string"
+          format: "date-time"      
+        utilisateurCreation:
+          type: "string"
+
+  Personne:
+      type: "object"
+      properties:
         nom:
+          type: "string"
+        civilite:
           type: "string"
         prenom:
           type: "string"
-        statutAdhesion:
-          type: "boolean"
-          default: false
-        statutAdherent:
-          type: "string"
-        statusReglement:
-          type: "string"
         email:
           type: "string"
+          format: "email"
         adresse:
           type: "string"
         codePostal:
           type: "string"
         ville:
           type: "string"
-        dateNaiss:
+        telephone_mobile:
           type: "string"
+        dateNaissance:
+          type: "string"
+          format: "date-time"
         sexe:
           type: "string"
-        sourceProvenance:
+        sourceAcquisitionProfil:
           type: "string"
-        idSalle:
-          type: "integer"
-          format: "int64"
-        isParraine:
-          type: "boolean"
-        dateAdhesion:
-          type: "string"
-        prelevement:
-          type: "string"
-        telephone:
-          type: "string"
-        moyensPaiement:
-          type: "string"
-        acces:
-          type: "string"
-        parraine:
-          type: "string"
-
-  Prospect:
+  Adherent:
+      allOf:
+        - $ref: '#/definitions/Objet' 
+        - $ref: '#/definitions/Personne'
       type: "object"
       properties:
-        adhId:
+        idAdherent:
           type: "integer"
           format: "int64"
-        nom:
+        numero:
+          type: "integer"
+          format: "int64"
+        isAdherentActif:
+          type: "boolean"
+          default: false
+        statut:
           type: "string"
-        prenom:
+        isEnImpaye:
+          type: "boolean"
+        soldeCompte:
+          type: "number"
+          format: "float"          
+        idClubAffectation:
+          type: "integer"
+          format: "int64"
+        dateDerniereAdhesion:
           type: "string"
+          format: "date-time"
+        isParraine:
+          type: "boolean"
+        numeroAdherentParrain:
+          type: "string"
+        codeParrainage:
+          type: "string"          
+
+  Prospect:
+      allOf:
+        - $ref: '#/definitions/Objet'
+        - $ref: '#/definitions/Personne'        
+      type: "object"
+      properties:
+        idProspect:
+          type: "integer"
+          format: "int64"
+        statutProspect:
+          type: "string"          
+        motivationPrincipale:
+          type: "string"  
 
   Article:
+      allOf:
+        - $ref: '#/definitions/Objet'
       type: "object"
       properties:
         idArticle:
@@ -554,12 +528,18 @@ definitions:
           type: "string"
         code:
           type: "string"  
+
   Club:
-        type: "object"
-        properties:
+      allOf:
+        - $ref: '#/definitions/Objet' 
+      type: "object"
+      properties:
           idClub:
             type: "integer"
             format: "int64"
+          numero:
+            type: "integer"
+            format: "int64"            
           nom:
             type: "string"
           adresse:
@@ -578,134 +558,139 @@ definitions:
             type: "string"
 
   ContratAdhesion:
-        type: "object"
-        title: "Contrat d'adhésion"
-        properties:
+      allOf:
+        - $ref: '#/definitions/Objet'   
+      type: "object"
+      title: "Contrat d'adhésion"
+      properties:
           idContratAdhesion:
             type: "integer"
             format: "int64"
-          createurNom:
-            type: "string"
-          dateAdhesion:
-            type: "string"
-            format: "date-time"
           typeContrat:
             type: "string"
-          adhId:
+          idAdherent:
             type: "integer"
             format: "int64"
           nbMoisEngagement:
             type: "integer"
             format: "int64"
-          moyensPaiement:
-            type: "string"
-          parraine:
-            type: "string"
           idClub:
             type: "integer"
             format: "int64"
           idArticle:
               type: "integer"
               format: "int64"
-          prix:
-              type: "integer"
-              format: "int64"
-          dateCreaArticle:
+          prixHT:
+              type: "number"
+              format: "float"
+          prixTTC:
+              type: "number"
+              format: "float"              
+          prixTVA:
+              type: "number"
+              format: "float"
+          dateEffetDemarrage:
             type: "string"
             format: "date-time"
-          typeArticle:
+          dateDemandeResiliation:
+            type: "string"
+            format: "date-time"
+          dateEffetResiliation:
+            type: "string"
+            format: "date-time"
+          motifResiliation:
               type: "string"
-          dateResil:
-            type: "string"
-            format: "date-time"
-          motifResilId:
-              type: "integer"
-              format: "int64"
-          dateEffet:
-            type: "string"
-            format: "date-time"
-          
-       
 
-  LigneContratAdhesion:
-        type: "object"
-        title: "Ligne de contrat d'adhésion"        
-        properties:
-          idLigneContratAdhesion:
-            type: "integer"
-            format: "int64"
-          idArticle:
-            type: "integer"
-            format: "int64"
-            
-            
   FactureVente:
-        type: "object"
-        title: "Facture de vente"        
-        properties:
+      allOf:
+        - $ref: '#/definitions/Objet' 
+      type: "object"
+      title: "Facture de vente"        
+      properties:
           idFactureVente:
             type: "integer"
             format: "int64"
-          creaDate:
-            type: "string"
-            format: "date-time"
+          numero:
+            type: "integer"
+            format: "int64"            
           dateFacturation:
             type: "string"
             format: "date-time"
           idClub:
             type: "integer"
             format: "int64"
-          adhId:
+          idAdherent:
             type: "integer"
             format: "int64"
-          createurNom:
-            type: "string"
-    
-          
 
   LigneFactureVente:
-        type: "object"
-        title: "Ligne de facture de vente"        
-        properties:
+      allOf:
+        - $ref: '#/definitions/Objet'   
+      type: "object"
+      title: "Ligne de facture de vente"        
+      properties:
           idLigneFactureVente:
             type: "integer"
             format: "int64" 
           idFactureVente:
             type: "integer"
-            format: "int64"  
-          
-            
+            format: "int64"
+          sens:
+            type: "string"
+          statut:
+            type: "string"            
+          dateEcheance:
+            type: "string"
+            format: "date-time"
+          moisFacturation:
+            type: "integer"
+          montantHT:
+            type: "number"
+            format: "float"            
+          montantTTC:
+            type: "number"
+            format: "float"
+          idLigneFactureVenteAnnulation:
+            type: "integer"
+            format: "int64"
+
   Reglement:
-        type: "object"
-        title: "Règlement d'une échéance"
-        properties:
+      allOf:
+        - $ref: '#/definitions/Objet'   
+      type: "object"
+      title: "Règlement d'une échéance"
+      properties:
           reglementEchId:
             type: "integer"
             format: "int64" 
-          creaDate:
-            type: "string"
-            format: "date-time"
-          createurNom:
-            type: "string"
-          chequeNum:
-            type: "string"
-          chequeDateEncaiss:
-            type: "string"
-            format: "date-time"
-          statut:
-            type: "string"
           idClub:
             type: "integer"
             format: "int64"
-          nomTitulaireCheque:
-            type: "string"
-          adhId:
+          idAdherent:
             type: "integer"
             format: "int64"   
-          montant:
+          montantTTC:
             type: "number"
-            format: "float"   
+            format: float   
           idFactureVente:
             type: "integer"
             format: "int64"
-            
+          typeMoyenReglement:
+            type: "string"
+          sens:
+            type: "string"
+          statut:
+            type: "string"
+          idReglementAnnulation:
+            type: "integer"
+            format: "int64"            
+          Cheque:
+            type: object
+            properties:
+              numero:
+                type: "string"
+              dateEncaissement:
+                type: "string"
+                format: "date-time"
+              nomTitulaire:
+                type: "string"
